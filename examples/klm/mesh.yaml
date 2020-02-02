@@ -1,0 +1,23 @@
+- output: ./src/generated-sdk/
+  sources:
+    - name: FlightOffers
+      handler:
+        name: typescript-json-schema
+        config:
+          basePath: https://api-ute3.airfranceklm.com/travel/offers/v1/
+          headers:
+            Accept: application/hal+json;charset=UTF-8;
+            Content-Type: application/json
+            Authorization: Bearer s3bwg7kewcfybz975ykvrs5n
+            AFKL-TRAVEL-Host: AF
+        source:
+          - query: lowestOffers
+            path: /lowest-fare-offers
+            method: GET
+            requestSchema: jsonschema/request/available-offers
+            responseSchema: jsonschema/response/lowest-fare-offers
+          - query: tripSummary
+            path: trip-summary
+            method: GET
+            requestSchema: jsonschema/request/trip-summary
+            responseSchema: jsonschema/response/trip-summary
