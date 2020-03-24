@@ -1,5 +1,47 @@
 {
   "definitions": {
+    "CacheInvalidateConfig": {
+      "additionalProperties": false,
+      "type": "object",
+      "title": "CacheInvalidateConfig",
+      "required": [],
+      "properties": {
+        "operation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalItems": false,
+          "description": "Invalidate the cache when a specific operation is done without an error"
+        },
+        "timer": {
+          "type": "string",
+          "description": "Invalidate the cache after specific time, you can free text (for example: 1 minute / 10s)"
+        }
+      }
+    },
+    "CacheTransformConfig": {
+      "additionalProperties": false,
+      "type": "object",
+      "title": "CacheTransformConfig",
+      "required": [
+        "field"
+      ],
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "The type and field to apply cache to, you can use wild cards as well, for example: `Query.*`"
+        },
+        "cacheKey": {
+          "type": "string",
+          "description": "Specify keys to to build you cache map.\n\nAvailable hints:\n- {arg:id} - use field argument"
+        },
+        "invalidate": {
+          "$ref": "#/definitions/CacheInvalidateConfig",
+          "description": "Invalidation rules"
+        }
+      }
+    },
     "ComposeWithMongooseFieldsOpts": {
       "additionalProperties": false,
       "type": "object",
@@ -638,6 +680,14 @@
       "title": "Transform",
       "required": [],
       "properties": {
+        "cache": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CacheTransformConfig"
+          },
+          "additionalItems": false,
+          "description": "Transformer to apply caching for your data sources"
+        },
         "extend": {
           "type": "string",
           "description": "GraphQL SDL and apply to the schema"
